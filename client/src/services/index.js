@@ -1,7 +1,7 @@
 import axios from "axios"
 
 
-axios.defaults.baseURL="http://localhost:5000/api/"
+axios.defaults.baseURL="/"
 
 const signupToServer= (userDetails)=>{
     return axios.post("signup", userDetails)
