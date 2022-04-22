@@ -13,26 +13,22 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
     const [selectedCustomer, setSelectedCustomer] = useState()
     const [invoiceNumber, setInvoiceNumber]= useState()
 
-    const handleSelectCustomer= async(event)=>{
-        let obj = customers?.find(o => o._id === event.target.value);
-        setSelectedCustomer(obj)
-    }
-
     useEffect(()=>{
         setUser(JSON.parse(sessionStorage.getItem('user')))
         getInvoiceNumber().then(({data})=>{
             setInvoiceNumber(data.invoiceno)
         })
         getcustomers().then((list)=>{
-            setTimeout(()=>{
-                setIsPending(false)
-            },0)
+            setIsPending(false)
             setCustomers(list.data)
         }).catch(error=>console.error(error))
 
     },[])
 
-
+    const handleSelectCustomer= async(event)=>{
+        let obj = customers?.find(o => o._id === event.target.value);
+        setSelectedCustomer(obj)
+    }
     const navigate = useNavigate();
     const handleLogout = () => {
         sessionStorage.clear();
@@ -91,7 +87,6 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
 
     const handleSubmit = (e)=>{
         e.preventDefault();
-        console.log(selectedCustomer)
         if(selectedCustomer===undefined){
             notify("Please select customer.")
         }else if(fields.length===0){
