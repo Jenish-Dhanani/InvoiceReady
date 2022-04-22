@@ -13,8 +13,8 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
     const [selectedCustomer, setSelectedCustomer] = useState()
     const [invoiceNumber, setInvoiceNumber]= useState()
 
-    const handleSelectCustomer=(event)=>{
-        let obj = customers.find(o => o._id === event.target.value);
+    const handleSelectCustomer= async(event)=>{
+        let obj = customers?.find(o => o._id === event.target.value);
         setSelectedCustomer(obj)
     }
 
@@ -110,10 +110,9 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
             }
             addInvoice(invoice).then((res)=>{
                 if(res.data){
-                    console.log(res.data)
+                    setIsPending(false)
                     notify("Invoice saved Successfully")
                     document.getElementById("open-model").click()
-                    setIsPending(false)
                 }
             })
         }
