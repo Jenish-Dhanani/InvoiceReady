@@ -18,11 +18,11 @@ function ModifyInvoice({width, navExpanded, setNavExpanded,notify}){
         setSelectedCustomer(obj)
     }
 
-    useEffect(()=>{
+    useEffect(async ()=>{
         setUser(JSON.parse(sessionStorage.getItem('user')))
 
         let getedCustomers
-        getcustomers().then((list)=>{
+        await getcustomers().then((list)=>{
             console.log(list.data)
             getedCustomers = list.data
             setCustomers(list.data)
@@ -30,7 +30,7 @@ function ModifyInvoice({width, navExpanded, setNavExpanded,notify}){
 
         if(id){
             console.log(id)
-            getInvoice(id).then(res=>{
+            await getInvoice(id).then(res=>{
                 if(res){
                     setIsPending(false)
                     setFields(res.data.items)
