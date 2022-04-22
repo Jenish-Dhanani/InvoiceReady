@@ -1,7 +1,7 @@
 import axios from "axios"
 
 
-axios.defaults.baseURL="/"
+axios.defaults.baseURL="/api/"
 
 const signupToServer= (userDetails)=>{
     return axios.post("signup", userDetails)
@@ -78,7 +78,7 @@ const saveCustomerTodb = (customer)=>{
 }
 
 const updateUser = (user)=>{
-    return axios.put('/user/',user,{
+    return axios.put('user/',user,{
         headers:{'Authorization':"Bearer "+sessionStorage.getItem('token')}
     })
 }
