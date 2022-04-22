@@ -24,9 +24,6 @@ const logger = (req,res,next)=>{
 app.use(logger)
 connectToDb()
 
-app.get('/',(req,res)=>{
-    res.send({message:"Sucessfull get on /  "})
-})
 
 app.post('/api/signup', async (req,res)=>{
     const {fname,lname,email,password,cname,gstin,address} = req.body
