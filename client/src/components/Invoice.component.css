@@ -1,0 +1,25 @@
+.Invoice-wrapper{
+    background-color: #eee;
+    /* padding: 0; */
+}
+/* input {
+    background: transparent;
+    border: none;
+    outline: none;
+    max-width: 100%;
+} */
+
+input:focus{
+    background: white;
+    border-bottom: 1px solid black;
+}
+
+.group{
+    margin-bottom: 8px;
+}
+
+@media (max-width:700px){
+    .padding-for-mobile{
+        padding: 0 !important;
+    }
+}
