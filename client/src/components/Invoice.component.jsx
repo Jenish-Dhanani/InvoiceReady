@@ -24,11 +24,10 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
             setInvoiceNumber(data.invoiceno)
         })
         getcustomers().then((list)=>{
-            // console.log(list.data)
-            setCustomers(list.data)
             setTimeout(()=>{
                 setIsPending(false)
             },0)
+            setCustomers(list.data)
         }).catch(error=>console.error(error))
 
     },[])
@@ -176,14 +175,16 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
                                         <div>
                                             <span>
                                                 {/* <input className="mw-100" type="text" placeholder="Customer name" /> */}
-                                                <select name="customer" id="customer" defaultValue="" className="form-select mt-2 customer-dropdown" onChange={handleSelectCustomer}>
-                                                    <option value="" disabled> select customer</option>
-                                                    {
-                                                        customers.map((customer,index)=>{
-                                                            return <option value={customer._id} key={customer._id}>{customer.cname}</option>
-                                                        })
-                                                    }
-                                                </select>
+                                                {customers &&
+                                                    <select name="customer" id="customer" defaultValue="" className="form-select mt-2 customer-dropdown" onChange={handleSelectCustomer}>
+                                                        <option value="" disabled> select customer</option>
+                                                        {
+                                                            customers.map((customer,index)=>{
+                                                                return <option value={customer._id} key={customer._id}>{customer.cname}</option>
+                                                            })
+                                                        }
+                                                    </select>
+                                                }
                                             </span>
                                         </div>
                                         <div className="mt-2">
