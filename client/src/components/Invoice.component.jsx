@@ -13,12 +13,12 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
     const [selectedCustomer, setSelectedCustomer] = useState()
     const [invoiceNumber, setInvoiceNumber]= useState()
 
-    useEffect(()=>{
+    useEffect(async()=>{
         setUser(JSON.parse(sessionStorage.getItem('user')))
-        getInvoiceNumber().then(({data})=>{
+        await getInvoiceNumber().then(({data})=>{
             setInvoiceNumber(data.invoiceno)
         })
-        getcustomers().then((list)=>{
+        await getcustomers().then((list)=>{
             setIsPending(false)
             setCustomers(list.data)
         }).catch(error=>console.error(error))
@@ -103,13 +103,16 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
                 note:document.getElementById('note').value,
                 status:"unpaid"
             }
-            addInvoice(invoice).then((res)=>{
-                if(res.data){
-                    setIsPending(false)
-                    notify("Invoice saved Successfully")
-                    document.getElementById("open-model").click()
-                }
-            })
+            async function save(){
+                await addInvoice(invoice).then((res)=>{
+                    if(res.data){
+                        setIsPending(false)
+                        notify("Invoice saved Successfully")
+                        document.getElementById("open-model").click()
+                    }
+                })
+            }
+            save()
         }
     }
 
@@ -134,7 +137,7 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
         {width > 768 && <Sidebar navExpanded={navExpanded} handleLogout={handleLogout} user={user}  />}
         <DashboardNav width={width} handleLogout={handleLogout} setNavExpanded={setNavExpanded} navExpanded={navExpanded} user={user}/>
         {
-        isPending?
+        isPending || customers===undefined?
             <div className="d-flex justify-content-center h-100 align-items-center">
                 <div className="spinner-border text-dark" style={{width:"5rem",height:"5rem"}}  role="status">
                     <span className="visually-hidden">Loading...</span>
@@ -170,10 +173,10 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
                                             <span>
                                                 {/* <input className="mw-100" type="text" placeholder="Customer name" /> */}
                                                 {customers &&
-                                                    <select name="customer" id="customer" defaultValue="" className="form-select mt-2 customer-dropdown" onChange={handleSelectCustomer}>
+                                                    <select name="customer" id="customer" defaultValue="" className="form-select w-50 mt-2 customer-dropdown" onChange={handleSelectCustomer}>
                                                         <option value="" disabled> select customer</option>
                                                         {
-                                                            customers.map((customer,index)=>{
+                                                            customers.map((customer)=>{
                                                                 return <option value={customer._id} key={customer._id}>{customer.cname}</option>
                                                             })
                                                         }

@@ -165,29 +165,39 @@ function ModifyInvoice({width, navExpanded, setNavExpanded,notify}){
                         <div className="col-11 col-lg-6 shadow p-3 rounded-3 bg-white invoice-main">
                             <div className="p-3">
                                 <div className="row">
-                                    <div className="col-md-6 text-center mt-3">
-                                        <h4 className="text-danger mb-0">WEB</h4><span>PROGRAMMING</span>
+                                    <div className={`${width>768?'text-start w-50':'text-center'} ps-md-5`}>
+                                        <h4 className="text-danger fs-2">InvoiceReady</h4>
+                                        <div className="mt-2">
+                                            <span>
+                                                <span className="fw-bold">{user.cname}</span><br/>
+                                                {user.address}<br/>
+                                                Gstin: {user.gstin}<br/>
+                                                {user.email} </span>
+                                            </div>
                                     </div>
-                                    <div className="col-md-6">
-                                        <h1 className="text-uppercase">Invoice</h1>
+                                    <div className={`${width>768?'text-end w-50':'mt-3 text-center'} pe-md-5 `}>
+                                        <h1 className="text-uppercase fs-3">Invoice</h1>
                                         <div><span className="fw-bold text-uppercase">Invoice No:</span><span className="ms-2">{invoiceNumber}</span></div>
                                     </div>
                                 </div>
+
                                 <hr />
                                 <div className="row mt-4 px-4 padding-for-mobile">
                                     <div className="col-7 text-start">
                                         <div><span className="fw-bold">Bill To</span></div>
                                         <div>
                                             <span>
-                                                {/* <input className="mw-100" type="text" placeholder="Customer name" /> */}
-                                                <select name="customer" id="customer" defaultValue="" className="form-select w-50 mt-2 customer-dropdown" onChange={handleSelectCustomer} value={selectedCustomer?._id} disabled={id} >
-                                                    <option value="" disabled> select customer</option>
-                                                    {
-                                                        customers.map((customer,index)=>{
-                                                            return <option value={customer._id} key={customer._id}>{customer.cname}</option>
-                                                        })
-                                                    }
-                                                </select>
+
+                                                {customers &&
+                                                    <select name="customer" id="customer" defaultValue="" className="form-select w-50 mt-2 customer-dropdown" onChange={handleSelectCustomer} value={selectedCustomer?._id} disabled={id} >
+                                                        <option value="" disabled> select customer</option>
+                                                        {
+                                                            customers.map((customer)=>{
+                                                                return <option value={customer._id} key={customer._id}>{customer.cname}</option>
+                                                            })
+                                                        }
+                                                    </select>
+                                                }
                                             </span>
                                         </div>
                                         <div className="mt-2">
@@ -198,10 +208,10 @@ function ModifyInvoice({width, navExpanded, setNavExpanded,notify}){
                                         </div>
                                     </div>
                                     <div className="col-5 text-end">
-                                        <div className="group">
+                                        {/* <div className="group">
                                             <div><span className="text-uppercase">Status</span></div>
                                             <div><span className="text-uppercase text-danger fw-bold">Unpaid</span></div>
-                                        </div>
+                                        </div> */}
                                         <div className="group">
                                             <div><span className="text-uppercase">Date</span></div>
                                             <div><span className="text-uppercase fw-bold">{new Date().toLocaleDateString()}</span></div>
