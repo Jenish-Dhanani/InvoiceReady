@@ -11,7 +11,7 @@ const PrivateRouter = () => {
   if (!isAuth) {
     return (
       <Navigate
-        to="/sign-in"
+        to="/"
         replace
         state={{ from: location }}
       />

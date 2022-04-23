@@ -118,9 +118,9 @@ function Login(){//{ isLogin, setIsLogin }
 								In</button>
 						</div>
 						<div className="form-group mt-5">
-							<p className="w-100 text-end">
+							{/* <p className="w-100 text-end">
 								<Link to="/">Forgot Password</Link>
-							</p>
+							</p> */}
 							<div className="w-100 text-end">
 								<p>Not a member?
 									{" "}<Link data-toggle="tab" to="/sign-up">Sign Up</Link>

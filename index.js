@@ -36,7 +36,7 @@ app.post('/api/signup', async (req,res)=>{
     }
 
     const hashedPassword = passwordHash.generate(password);
-    console.log(hashedPassword)
+    //console.log(hashedPassword)
     const saveUser = await new userModel({
         fname,
         lname,
@@ -110,7 +110,7 @@ app.get('/api/user',async (req, res)=>{
 })
 
 app.put('/api/user/',async (req, res)=>{
-    console.log("called")
+    //console.log("called")
     const {fname,lname,cname,gstin,address} = req.body
     if (req.headers && req.headers.authorization) {
         var authorization = req.headers.authorization.split(' ')[1],
@@ -140,7 +140,7 @@ app.put('/api/user/',async (req, res)=>{
           })
 
           if(result){
-              console.log(result)
+              //console.log(result)
               res.json({result, success: true, msg: 'User details updated'})
           }
 
@@ -270,7 +270,7 @@ app.put('/api/customer/:id', async(req, res) => {
     })
 
     if(result){
-        console.log(result)
+        //console.log(result)
         res.json({result, success: true, msg: 'Customer details updated'})
     }
   })
@@ -288,7 +288,7 @@ app.get('/api/invoice/getnumber',async(req,res)=>{
         }
         let {_id} = decoded
 
-        console.log(_id)
+        //console.log(_id)
         data = await invoiceModel.find({sellerid:_id}).sort({invoiceno:-1}).limit(1)
         return res.json({invoiceno:data[0]?data[0].invoiceno+1:1})
     }
@@ -330,7 +330,7 @@ app.post('/api/invoice/add/',async (req,res)=>{
 })
 
 app.put('/api/invoice',async (req,res)=>{
-    console.log(req.body)
+    //console.log(req.body)
     if (req.headers && req.headers.authorization) {
         let {invoiceId,date,customerid,sellerid,items,note,totalAmount,status} = req.body
         var authorization = req.headers.authorization.split(' ')[1],
@@ -359,7 +359,7 @@ app.put('/api/invoice',async (req,res)=>{
         })
 
         if(result){
-            console.log(result)
+            //console.log(result)
             res.json({result, success: true, msg: 'Invoice Updated.'})
         }
     }
@@ -423,7 +423,7 @@ app.delete('/api/invoice/delete/:id',(req,res)=>{
         let {_id} = decoded
 
         invoiceModel.findByIdAndDelete(req.params.id).then(async (result)=>{
-            console.log(result)
+            //console.log(result)
             await invoiceModel.find({sellerid:_id})
             .then((invoices)=>{
                 return res.json(invoices);
@@ -494,7 +494,7 @@ app.get('/api/dashboard',async(req,res)=>{
         data[0].value = customers.length
 
         let invoices = await invoiceModel.find({sellerid:_id})
-        console.log(invoices)
+        //console.log(invoices)
 
         data[1].value = invoices.length
 

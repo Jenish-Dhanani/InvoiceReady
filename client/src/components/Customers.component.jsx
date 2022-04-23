@@ -104,10 +104,10 @@ return (
                                 return (
                                 <tr key={index}>
                                     <td><div className='d-flex justify-content-center align-items-center fs-3 rounded-circle bg-success text-white text-uppercase' style={{width:"2.5rem", height:"2.5rem"}}> {customer.cname[0]} </div></td>
-                                    <td className='fw-bold'>{customer.cname}</td>
-                                    <td className=''>{customer.email}</td>
-                                    <td className=''>{customer.phone}</td>
-                                    <td className=''>{customer.address}</td>
+                                    <td className='fw-bold align-middle'>{customer.cname}</td>
+                                    <td className='align-middle'>{customer.email}</td>
+                                    <td className='align-middle'>{customer.phone}</td>
+                                    <td className='align-middle'>{customer.address}</td>
                                     <td className='cursor-pointer'>
                                         <button className='btn btn-primary' onClick={()=>{updateCustomer(customer)}}><i className='fa fa-edit'></i></button>
                                     </td>

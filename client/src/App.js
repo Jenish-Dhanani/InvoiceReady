@@ -13,6 +13,7 @@ import Invoices from './components/Invoices.component';
 import { ModifyInvoice } from './components/Modify.invoice.component';
 import PageNotFound from './components/PageNotFound';
 import { Profile } from './components/Profile.component';
+import { Landing } from './components/Landing.component';
 if (typeof window !== "undefined") {
   injectStyle();
 }
@@ -43,7 +44,8 @@ function App() {
       <Router>
         <div className="App">
               <Routes>
-                <Route exact path='/' element={<Login isLogin={isLogin} setIsLogin={setIsLogin} />} />
+                {/* <Route exact path='/' element={<Login isLogin={isLogin} setIsLogin={setIsLogin} />} /> */}
+                <Route exact path='/' element={<Landing />} />
                 <Route path="/sign-in" element={<Login isLogin={isLogin} setIsLogin={setIsLogin} />} />
                 <Route path="/sign-up" element={<Signup notify={notify}/>} />
 
