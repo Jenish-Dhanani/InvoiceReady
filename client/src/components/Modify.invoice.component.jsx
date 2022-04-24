@@ -12,6 +12,7 @@ function ModifyInvoice({width, navExpanded, setNavExpanded,notify}){
     const [customers, setCustomers] = useState([])
     const [selectedCustomer, setSelectedCustomer] = useState()
     const [invoiceNumber, setInvoiceNumber]= useState()
+    const [isNotChanged, setIsNotChanged] = useState(true)
 
     const handleSelectCustomer=(event)=>{
         let obj = customers.find(o => o._id === event.target.value);
@@ -63,10 +64,12 @@ function ModifyInvoice({width, navExpanded, setNavExpanded,notify}){
             {value:0}
         ];
         setFields([...fields,row]);
+        if(isNotChanged) setIsNotChanged(false)
     }
     function deleteRow(index){
         fields.splice(index,1);
         setFields([...fields])
+        if(isNotChanged) setIsNotChanged(false)
     }
 
     const preventMinus = (e) => {
@@ -82,6 +85,7 @@ function ModifyInvoice({width, navExpanded, setNavExpanded,notify}){
         let amount = (copy[trindex][1].value * copy[trindex][2].value)
         copy[trindex][3].value = amount
         setFields(copy)
+        if(isNotChanged) setIsNotChanged(false)
     }
 
     let [amount,setAmount] = useState(0);
@@ -110,6 +114,8 @@ function ModifyInvoice({width, navExpanded, setNavExpanded,notify}){
             notify("Please select customer.")
         }else if(fields.length===0){
             notify("Please add some product.")
+        }else if(amount ===0){
+            notify("please add some items and amount should be grater than 0.")
         }
         else{
             let invoice = {
@@ -275,9 +281,13 @@ function ModifyInvoice({width, navExpanded, setNavExpanded,notify}){
                                 </div>
                                 <hr />
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <div className="d-flex justify-content-between align-item-center mb-3 invoice-save-btn w-50">
+                                    <div className="d-flex justify-content-evenly align-item-center mb-3 invoice-save-btn w-50">
+                                        {isNotChanged? <>
                                         <button className="btn btn-danger invoice-save-btn" type="button" onClick={handleSubmit}>Save</button>
-                                        <button className="btn btn-success invoice-save-btn" type="button" onClick={handlePrint}>Print</button>
+                                        <button className="btn btn-success invoice-save-btn" type="button" onClick={handlePrint}>Print</button></>
+                                        :
+                                        <button className="btn btn-danger invoice-save-btn" type="button" onClick={handleSubmit}>Save</button>
+                                        }
                                     </div>
                                 </div>
                             </div>

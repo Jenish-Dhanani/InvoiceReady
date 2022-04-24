@@ -91,6 +91,8 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
             notify("Please select customer.")
         }else if(fields.length===0){
             notify("Please add some product.")
+        }else if(amount ===0){
+            notify("please add some items and amount should be grater than 0.")
         }
         else{
             setIsPending(true)
@@ -173,7 +175,7 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
                                             <span>
                                                 {/* <input className="mw-100" type="text" placeholder="Customer name" /> */}
                                                 {customers &&
-                                                    <select name="customer" id="customer" defaultValue="" className="form-select w-50 mt-2 customer-dropdown" onChange={handleSelectCustomer}>
+                                                    <select name="customer" id="customer" defaultValue="" className="form-select w-50 mt-2 customer-dropdown" onChange={handleSelectCustomer} value={selectedCustomer?._id}>
                                                         <option value="" disabled> select customer</option>
                                                         {
                                                             customers.map((customer)=>{
