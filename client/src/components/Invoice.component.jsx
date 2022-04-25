@@ -12,7 +12,7 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
     const [customers, setCustomers] = useState([])
     const [selectedCustomer, setSelectedCustomer] = useState()
     const [invoiceNumber, setInvoiceNumber]= useState()
-    const []
+
     useEffect(async()=>{
         setUser(JSON.parse(sessionStorage.getItem('user')))
         await getInvoiceNumber().then(({data})=>{
