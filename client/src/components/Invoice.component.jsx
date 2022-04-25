@@ -12,7 +12,7 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
     const [customers, setCustomers] = useState([])
     const [selectedCustomer, setSelectedCustomer] = useState()
     const [invoiceNumber, setInvoiceNumber]= useState()
-
+    const []
     useEffect(async()=>{
         setUser(JSON.parse(sessionStorage.getItem('user')))
         await getInvoiceNumber().then(({data})=>{
@@ -95,7 +95,7 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
             notify("please add some items and amount should be grater than 0.")
         }
         else{
-            setIsPending(true)
+            // setIsPending(true)
             let invoice = {
                 invoiceno:invoiceNumber,
                 date: new Date().toLocaleDateString(),
@@ -108,7 +108,7 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
             async function save(){
                 await addInvoice(invoice).then((res)=>{
                     if(res.data){
-                        setIsPending(false)
+                        // setIsPending(false)
                         notify("Invoice saved Successfully")
                         document.getElementById("open-model").click()
                     }
