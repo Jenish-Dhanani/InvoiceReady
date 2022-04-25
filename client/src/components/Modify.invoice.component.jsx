@@ -24,19 +24,16 @@ function ModifyInvoice({width, navExpanded, setNavExpanded,notify}){
 
         let getedCustomers
         await getcustomers().then((list)=>{
-            console.log(list.data)
             getedCustomers = list.data
             setCustomers(list.data)
         }).catch(error=>console.error(error))
 
         if(id){
-            console.log(id)
             await getInvoice(id).then(res=>{
                 if(res){
                     setIsPending(false)
                     setFields(res.data.items)
-                    let obj = getedCustomers.find(o => o._id === res.data.customerid);
-                    console.log(obj)
+                    let obj = getedCustomers.find(o => o._id === res.data.customerid)
                     setSelectedCustomer(obj)
                     setInvoiceNumber(res.data.invoiceno)
                     document.getElementById('note').value = res.data.note
@@ -109,7 +106,6 @@ function ModifyInvoice({width, navExpanded, setNavExpanded,notify}){
 
     const handleSubmit = (e)=>{
         e.preventDefault();
-        console.log(selectedCustomer)
         if(selectedCustomer===undefined){
             notify("Please select customer.")
         }else if(fields.length===0){
@@ -125,10 +121,8 @@ function ModifyInvoice({width, navExpanded, setNavExpanded,notify}){
                 note:document.getElementById('note').value,
                 status:"unpaid"
             }
-            console.log(invoice)
             updateInvoice(invoice).then((res)=>{
                 if(res.data){
-                    console.log(res.data)
                     notify("Invoice updated Successfully")
                     document.getElementById("open-model").click()
                 }
