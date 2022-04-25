@@ -15,9 +15,9 @@ useEffect(()=>{
     dashboardData().then((res)=>{
         if(res){
             setDasboardTiles(res.data)
+            setIsPending(false)
         }
     })
-    setIsPending(false)
 },[])
 
 const navigate = useNavigate();
