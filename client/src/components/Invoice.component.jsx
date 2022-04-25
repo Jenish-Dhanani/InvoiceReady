@@ -172,10 +172,9 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
                                     <div className="col-7 text-start">
                                         <div><span className="fw-bold">Bill To</span></div>
                                         <div>
-                                            <span>
                                                 {/* <input className="mw-100" type="text" placeholder="Customer name" /> */}
                                                 {customers &&
-                                                    <select name="customer" id="customer" defaultValue="" className="form-select w-50 mt-2 customer-dropdown" onChange={handleSelectCustomer} value={selectedCustomer?._id}>
+                                                    <select name="customer" id="customer" defaultValue="" className={`form-select ${width>768? 'w-50': 'w-100'} mt-2 customer-dropdown`} onChange={handleSelectCustomer} value={selectedCustomer?._id}>
                                                         <option value="" disabled> select customer</option>
                                                         {
                                                             customers.map((customer)=>{
@@ -184,7 +183,6 @@ function Invoice({width, navExpanded, setNavExpanded,notify}){
                                                         }
                                                     </select>
                                                 }
-                                            </span>
                                         </div>
                                         <div className="mt-2">
                                             <div><span>{selectedCustomer?.gstin}</span></div>
