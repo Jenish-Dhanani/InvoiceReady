@@ -7,7 +7,7 @@ Built with the MERN stack (MongoDB, Express, React and NodeJS).
 ## Authors
 
 - [@Jenish Dhanani](https://github.com/Jenish-Dhanani)
-
+- [@yash17129](https://github.com/yash17129)
 
 ## Key Features
 
