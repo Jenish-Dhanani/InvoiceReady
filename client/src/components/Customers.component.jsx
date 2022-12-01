@@ -12,6 +12,10 @@ const [user,setUser] = useState({})
 const [customers, setCustomers] = useState([])
 
 const [customer, setCustomer] = useState({cid:"",cnameinput:"",cemailinput:"",cphoneinput:"",caddressinput:""})
+const [dataIsCorrect, setDataIsCorrect] = useState(false)
+const [errors, setErrors] = useState({})
+const [isAddNew, setIsAddNew] = useState(false)
+const [isUpdate, setIsUpdate] = useState(false)
 
 useEffect(()=>{
 setUser(JSON.parse(sessionStorage.getItem('user')))
@@ -24,6 +28,32 @@ getcustomers().then((list)=>{
 useEffect(()=>{
 
 },[customers])
+
+useEffect(()=>{
+    if(Object.keys(errors).length===0 && dataIsCorrect && isAddNew && !isUpdate){
+        // cnameinput:"",cemailinput:"",cphoneinput:"",caddressinput:""
+        addCustomer(customer).then((res)=>{
+            if(res.data){
+                setCustomers(res.data)
+                notify("customer added successfully")
+            }
+        })
+        setIsAddNew(false)
+    }
+    if(Object.keys(errors).length===0 && dataIsCorrect && !isAddNew && isUpdate){
+        // cnameinput:"",cemailinput:"",cphoneinput:"",caddressinput:""
+        saveCustomerTodb(customer).then(res=>{
+            if(res.data){
+                setCustomers(res.data)
+                setIsPending(false)
+                notify("user Updated.")
+            }
+        })
+        setIsUpdate(false)
+    }
+
+    setIsPending(false)
+},[errors])
 
 const navigate = useNavigate();
 const handleLogout = () => {
@@ -38,18 +68,34 @@ const handleChange = (event)=>{
     })
 }
 
+const validateForm=(values)=>{
+    let err={}
+
+    if(!values.cnameinput){
+        err.cnameinput = "Customer name is required."
+    }
+    if(!values.cemailinput){
+        err.cemailinput = "Customer email is invalid"
+    }
+    if(!values.cphoneinput){
+        err.cphoneinput = "Customer phone no is required."
+    }
+    if(!values.caddressinput){
+        err.caddressinput = "Customer address is required."
+    }
+    return err
+}
+
 const saveCustomer = (e)=>{
     e.preventDefault()
     console.log(customer)
-    addCustomer(customer).then((res)=>{
-        if(res.data){
-            setCustomers(res.data)
-            notify("customer added successfully")
-        }
-    })
+    setErrors(validateForm(customer))
+    setDataIsCorrect(true)
+
 }
 
 const updateCustomer = (customer)=>{
+    setIsUpdate(true)
     document.getElementById('update-open-model').click()
     setCustomer({
         cid:customer._id,
@@ -63,13 +109,18 @@ const updateCustomer = (customer)=>{
 const saveUpdatedCustomer =(e)=>{
     e.preventDefault()
     setIsPending(true)
-    saveCustomerTodb(customer).then(res=>{
-        if(res.data){
-            setCustomers(res.data)
-            setIsPending(false)
-            notify("user Updated.")
-        }
-    })
+    setErrors(validateForm(customer))
+    setDataIsCorrect(true)
+}
+
+
+const handleModelClose = (e)=>{
+    e.preventDefault()
+    setIsUpdate(false)
+    setIsAddNew(false)
+    setCustomer({cid:"",cnameinput:"",cemailinput:"",cphoneinput:"",caddressinput:""})
+    setTimeout(()=>{setErrors({cnameinput:"",cemailinput:"",cphoneinput:"",caddressinput:""})},100)
+    document.getElementById('closeModel').click();
 }
 
 return (
@@ -93,7 +144,7 @@ return (
         <div>
             <div className="container min-vh-100">
                 <h3 className="title my-5">Customers</h3>
-                <button className='btn btn-primary' data-bs-toggle="modal" data-bs-target="#exampleModal" id="open-model"> Add Customer</button>
+                <button className='btn btn-primary' data-bs-toggle="modal" data-bs-target="#exampleModal" id="open-model" onClick={()=>setIsAddNew(true)}> Add Customer</button>
                 <div className='w-100 bg-light shadow mt-5 p-5 table-responsive'>
 
                 <table className="table table-hover">
@@ -136,28 +187,41 @@ return (
                         <table>
                             <tbody>
                                 <tr>
-                                    <td className='w-50'><label className='form-control-placeholder'>Customer Name</label></td>
-                                    <td><input type="text" className='form-control' name="cnameinput" onChange={handleChange}></input></td>
+                                    <td className='w-50 align-baseline' ><label className='form-control-placeholder'>Customer Name</label></td>
+                                    <td>
+                                        <input type="text" className={`form-control ${errors.cnameinput? "is-invalid":""}`} name="cnameinput" onChange={handleChange} value={customer.cnameinput}></input>
+                                        {errors.cnameinput &&<div className="alert-danger my-3 p-2">{errors.cnameinput}</div>}
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td className='w-50'><label className='form-control-placeholder'>Email</label></td>
-                                    <td><input type="email" className='form-control' name="cemailinput" onChange={handleChange}></input></td>
+                                    <td className='w-50 align-baseline' ><label className='form-control-placeholder'>Email</label></td>
+                                    <td>
+                                        <input type="email" className={`form-control ${errors.cemailinput? "is-invalid":""}`} name="cemailinput" onChange={handleChange} value={customer.cemailinput}></input>
+                                        {errors.cemailinput &&<div className="alert-danger my-3 p-2">{errors.cemailinput}</div>}
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td className='w-50'><label className='form-control-placeholder'>Phone Number</label></td>
-                                    <td><input type="number" className='form-control' name="cphoneinput" onChange={handleChange}></input></td>
+                                    <td className='w-50 align-baseline' ><label className='form-control-placeholder'>Phone Number</label></td>
+                                    <td>
+                                        <input type="number" className={`form-control ${errors.cphoneinput? "is-invalid":""}`} name="cphoneinput" onChange={handleChange} value={customer.cphoneinput}></input>
+                                        {errors.cphoneinput &&<div className="alert-danger my-3 p-2">{errors.cphoneinput}</div>}
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td className='w-50'><label className='form-control-placeholder'>Address</label></td>
-                                    <td><textarea className='form-control' name="caddressinput" onChange={handleChange}></textarea></td>
+                                    <td className='w-50 align-baseline' ><label className='form-control-placeholder'>Address</label></td>
+                                    <td>
+                                        <textarea className={`form-control ${errors.caddressinput? "is-invalid":""}`} name="caddressinput" onChange={handleChange} value={customer.caddressinput}></textarea>
+                                        {errors.caddressinput &&<div className="alert-danger my-3 p-2">{errors.caddressinput}</div>}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
 
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-primary" data-bs-dismiss="modal" id="closeModel">Close</button>
-                        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" id="closeModel">Save</button>
+                        <button type="button" className="btn btn-primary" onClick={(e)=>{handleModelClose(e)}}>Close</button>
+                        <button type="submit" className="btn btn-primary" >Save</button>
+                        <button type="submit" className="btn btn-primary d-none" data-bs-dismiss="modal" id="closeModel" >Save</button>
                     </div>
                     </div>
                     </form>
@@ -176,28 +240,41 @@ return (
                         <table>
                             <tbody>
                                 <tr>
-                                    <td className='w-50'><label className='form-control-placeholder'>Customer Name</label></td>
-                                    <td><input type="text" className='form-control' name="cnameinput" onChange={handleChange} value={customer.cnameinput}></input></td>
+                                    <td className='w-50 align-baseline' ><label className='form-control-placeholder'>Customer Name</label></td>
+                                    <td>
+                                        <input type="text" className={`form-control ${errors.cnameinput? "is-invalid":""}`} name="cnameinput" onChange={handleChange} value={customer.cnameinput}></input>
+                                        {errors.cnameinput &&<div className="alert-danger my-3 p-2">{errors.cnameinput}</div>}
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td className='w-50'><label className='form-control-placeholder'>Email</label></td>
-                                    <td><input type="email" className='form-control' name="cemailinput" onChange={handleChange} value={customer.cemailinput}></input></td>
+                                    <td className='w-50 align-baseline' ><label className='form-control-placeholder'>Email</label></td>
+                                    <td>
+                                        <input type="email" className={`form-control ${errors.cemailinput? "is-invalid":""}`} name="cemailinput" onChange={handleChange} value={customer.cemailinput}></input>
+                                        {errors.cemailinput &&<div className="alert-danger my-3 p-2">{errors.cemailinput}</div>}
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td className='w-50'><label className='form-control-placeholder'>Phone Number</label></td>
-                                    <td><input type="number" className='form-control' name="cphoneinput" onChange={handleChange} value={customer.cphoneinput}></input></td>
+                                    <td className='w-50 align-baseline' ><label className='form-control-placeholder'>Phone Number</label></td>
+                                    <td>
+                                        <input type="number" className={`form-control ${errors.cphoneinput? "is-invalid":""}`} name="cphoneinput" onChange={handleChange} value={customer.cphoneinput}></input>
+                                        {errors.cphoneinput &&<div className="alert-danger my-3 p-2">{errors.cphoneinput}</div>}
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td className='w-50'><label className='form-control-placeholder'>Address</label></td>
-                                    <td><textarea className='form-control' name="caddressinput" onChange={handleChange} value={customer.caddressinput}></textarea></td>
+                                    <td className='w-50 align-baseline' ><label className='form-control-placeholder'>Address</label></td>
+                                    <td>
+                                        <textarea className={`form-control ${errors.caddressinput? "is-invalid":""}`} name="caddressinput" onChange={handleChange} value={customer.caddressinput}></textarea>
+                                        {errors.caddressinput &&<div className="alert-danger my-3 p-2">{errors.caddressinput}</div>}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
 
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-primary" data-bs-dismiss="modal" id="closeModel">Close</button>
-                        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" id="closeModel">Update</button>
+                        <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" className="btn btn-primary" >Update</button>
+                        <button type="button" className="btn btn-primary d-none" data-bs-dismiss="modal" id="closeModel" >Save</button>
                     </div>
                     </div>
                     </form>

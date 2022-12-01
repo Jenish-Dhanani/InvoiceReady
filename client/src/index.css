@@ -66,4 +66,11 @@ code {
   select {
     background-image: none !important;
   }
+
+  #note{
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    resize:none;
+  }
 }
