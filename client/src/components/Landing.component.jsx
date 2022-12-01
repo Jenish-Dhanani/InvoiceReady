@@ -16,6 +16,10 @@ const Landing = ()=>{
                         <button className="btn btn-light btn-lg"><Link to="/sign-up">SignUp now!</Link></button>
                     </div>
                     {/* <div className="col-md-12 col-lg-6"></div> */}
+
+                </div>
+                <div class="arrow bounce">
+                      <span class="fa fa-arrow-down fa-2x" ></span>
                 </div>
                 <div className="container">
                     <div className="row min-vh-100">

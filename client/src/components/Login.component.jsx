@@ -2,6 +2,7 @@ import { Link,useLocation,useNavigate  } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { login } from "../services";
 import { Navbar } from "./Navbar";
+import Banner from '../Images/Banner.svg';
 
 function Login(){//{ isLogin, setIsLogin }
 	const navigate = useNavigate();
@@ -93,12 +94,12 @@ function Login(){//{ isLogin, setIsLogin }
 		<div className="row justify-content-center my-4">
 			<div className="col-md-7 col-lg-5 shadow p-3">
 				<div className="rounded w-100"
-					style={{backgroundImage:`url("https://preview.colorlib.com/theme/bootstrap/login-form-15/images/xbg-1.jpg.pagespeed.ic.EtoN2PmO7Y.webp")`,height:"200px"}}>
+					style={{backgroundImage: `url(${Banner})`,height:"200px", backgroundPosition:'center', backgroundRepeat:'no-repeat'}}>
 				</div>
 				<div className="p-3">
 					<div className="d-flex">
 						<div className="w-100">
-							<h3 className="mb-4">Sign In</h3>
+							<h1 className="mb-4 fw-bold">Sign In</h1>
 						</div>
 					</div>
 					{messageBox.length!=0 && <div className="alert alert-danger">{messageBox}</div>}
