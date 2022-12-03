@@ -4,10 +4,10 @@ An Invoice is a commercial document issued by a seller to a buyer indicating the
 ## MERN Stack Invoicing Application
 Built with the MERN stack (MongoDB, Express, React and NodeJS).
 
-## Authors
+<!-- ## Authors -->
 
-- [@Jenish Dhanani](https://github.com/Jenish-Dhanani)
-- [@yash17129](https://github.com/yash17129)
+<!-- - [@Jenish Dhanani](https://github.com/Jenish-Dhanani) -->
+<!-- - [@yash17129](https://github.com/yash17129) -->
 
 ## Key Features
 
